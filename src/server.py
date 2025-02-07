@@ -28,7 +28,7 @@ def custom_json_serializer(obj):
         return json.loads(str(obj))
     raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
 
-# In server.py - Revised StripeManager class
+# Revised StripeManager class
 class StripeManager:
     def __init__(self):
         logger.info("🔄 Initializing StripeManager")
@@ -68,7 +68,6 @@ class StripeManager:
             report += f"Parameters: {json.dumps(entry['parameters'], indent=2)}\n"
             report += "-" * 50 + "\n"
         return report
-
 
 async def main():
     logger.info("Starting Stripe MCP Server")
@@ -120,11 +119,12 @@ async def main():
                 metadata=args.get("metadata", {})
             )
             manager.log_operation("customer_create", args)
-            return [TextContent(text=json.dumps(customer, default=custom_json_serializer))]
+            # Include the "type" field along with "text"
+            return [TextContent(type="text", text=json.dumps(customer, default=custom_json_serializer))]
         
         elif name == "customer_retrieve":
             customer = stripe.Customer.retrieve(args["customer_id"])
-            return [TextContent(text=json.dumps(customer, default=custom_json_serializer))]
+            return [TextContent(type="text", text=json.dumps(customer, default=custom_json_serializer))]
         
         elif name == "customer_update":
             customer = stripe.Customer.modify(
@@ -132,7 +132,7 @@ async def main():
                 **args["update_fields"]
             )
             manager.log_operation("customer_update", args)
-            return [TextContent(text=json.dumps(customer, default=custom_json_serializer))]
+            return [TextContent(type="text", text=json.dumps(customer, default=custom_json_serializer))]
         
         raise ValueError(f"Unknown customer operation: {name}")
 
@@ -146,14 +146,14 @@ async def main():
                 metadata=args.get("metadata", {})
             )
             manager.log_operation("payment_intent_create", args)
-            return [TextContent(text=json.dumps(intent, default=custom_json_serializer))]
+            return [TextContent(type="text", text=json.dumps(intent, default=custom_json_serializer))]
         
         elif name == "charge_list":
             charges = stripe.Charge.list(
                 limit=args.get("limit", 10),
                 customer=args.get("customer_id")
             )
-            return [TextContent(text=json.dumps(charges, default=custom_json_serializer))]
+            return [TextContent(type="text", text=json.dumps(charges, default=custom_json_serializer))]
         
         raise ValueError(f"Unknown payment operation: {name}")
 
@@ -165,7 +165,7 @@ async def main():
                 reason=args.get("reason", "requested_by_customer")
             )
             manager.log_operation("refund_create", args)
-            return [TextContent(text=json.dumps(refund, default=custom_json_serializer))]
+            return [TextContent(type="text", text=json.dumps(refund, default=custom_json_serializer))]
         
         raise ValueError(f"Unknown refund operation: {name}")
 
@@ -179,4 +179,3 @@ async def main():
 if __name__ == "__main__":
     import asyncio
     asyncio.run(main())
-
