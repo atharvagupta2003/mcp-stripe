@@ -98,6 +98,7 @@ async def main():
 
     @server.call_tool()
     async def call_tool(name: str, arguments: Any) -> Sequence[TextContent]:
+        logger.debug("=== RECEIVED JSON-RPC callTool request ===")
         try:
             if name.startswith("customer_"):
                 return await handle_customer_operations(manager, name, arguments)
@@ -172,14 +173,7 @@ async def main():
         await server.run(
             read_stream,
             write_stream,
-            InitializationOptions(
-                server_name="mcp-server-stripe",
-                server_version="0.1.0",
-                capabilities=server.get_capabilities(
-                    notification_options=NotificationOptions(),
-                    experimental_capabilities={},
-                ),
-            ),
+            server.create_initialization_options(),
         )
 
 if __name__ == "__main__":
