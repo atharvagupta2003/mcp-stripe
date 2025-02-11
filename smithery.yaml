@@ -1,0 +1,17 @@
+# Smithery configuration file: https://smithery.ai/docs/config#smitheryyaml
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required:
+      - stripeApiKey
+    properties:
+      stripeApiKey:
+        type: string
+        description: The secret key for authenticating with the Stripe API.
+  commandFunction:
+    # A function that produces the CLI command to start the MCP on stdio.
+    |-
+    (config) => ({command: 'uv', args: ['run', 'src/server.py'], env: {STRIPE_API_KEY: config.stripeApiKey}})
