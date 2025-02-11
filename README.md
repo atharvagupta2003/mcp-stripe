@@ -1,4 +1,5 @@
 # MCP Stripe Server
+[![smithery badge](https://smithery.ai/badge/@atharvagupta2003/mcp-stripe)](https://smithery.ai/server/@atharvagupta2003/mcp-stripe)
 
 A Model Context Protocol (MCP) server implementation that integrates with Stripe for handling payments, customers, and refunds. This server provides a structured API to manage financial transactions securely.
 
@@ -39,6 +40,14 @@ The server implements Stripe API operations, including:
 - **MCP Integration**: Supports MCP-compatible tools and resource listing
 
 ## Installation
+
+### Installing via Smithery
+
+To install Stripe Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@atharvagupta2003/mcp-stripe):
+
+```bash
+npx -y @smithery/cli install @atharvagupta2003/mcp-stripe --client claude
+```
 
 ### Install dependencies
 ```sh
@@ -160,4 +169,3 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
