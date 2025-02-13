@@ -2,6 +2,10 @@
 
 A Model Context Protocol (MCP) server implementation that integrates with Stripe for handling payments, customers, and refunds. This server provides a structured API to manage financial transactions securely.
 
+# Demo
+![stripe_demo](https://github.com/user-attachments/assets/5f67d8f5-1c31-4105-a186-f8d16e66b660)
+
+
 ## Requirements
 - Python 3.8+
 - MCP SDK 0.1.0+
